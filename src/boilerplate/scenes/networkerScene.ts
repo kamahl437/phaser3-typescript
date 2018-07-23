@@ -1,4 +1,4 @@
-import { Player } from "../../games/coinRunner/objects/player";
+import { Player } from "../../games/networker/objects/player";
 
 /**
  * @author       Digitsensitive <digit.sensitivee@gmail.com>
@@ -13,8 +13,7 @@ export class Networker extends Phaser.Scene {
       key: "NetworkerScene"
     });
   }
-
-  private player;
+  private player:Player;
   private score = 0;
   private scoreText:Phaser.GameObjects.Text;
 
@@ -35,9 +34,7 @@ export class Networker extends Phaser.Scene {
       // negative seems to reverse it.
       // spiders.create(300,400,'spider').setScale(.1);
       // spiders.create(600,400,'spider').setScale(.1);
-      this.player = this.physics.add.image(100,100,'player');
-      this.player.setCollideWorldBounds(true);
-      this.player.setBounce(0.2);
+      this.player = new Player(this, 100, 100,'player');
       let platforms = this.physics.add.staticGroup();
       platforms.create(100, 400, 'ground');
       platforms.create(600, 400, 'ground');
@@ -51,7 +48,7 @@ export class Networker extends Phaser.Scene {
       }, this);
       //refresh body makes sure the physics scale with the image
       platforms.create(320, 700, 'ground').setScale(2.5).refreshBody();
-
+      //first parameter gets checked for collision first
       this.physics.add.collider(platforms, this.player);
       this.physics.add.collider(coins, platforms);
       this.physics.add.collider(this.player, coins, this.collectCoin, null, this)
@@ -67,18 +64,6 @@ export class Networker extends Phaser.Scene {
     }
 
     update(time:number):void {
-      let cursors = this.input.keyboard.createCursorKeys();
-      if (cursors.left.isDown) {
-          this.player.setVelocityX(-160);
-      }
-      else if (cursors.right.isDown) {
-        this.player.setVelocityX(160);
-      }
-      else {
-        this.player.setVelocityX(0);
-      }
-      if(cursors.up.isDown && this.player.body.touching.down) {
-        this.player.setVelocityY(-150);
-      }
+      this.player.update();
   }
 }

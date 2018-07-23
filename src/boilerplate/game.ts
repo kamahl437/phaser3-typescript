@@ -21,14 +21,15 @@ const config: GameConfig = {
   physics: {
     default: "arcade",
     arcade: {
-      gravity: { y: 200 }
+      gravity: { y: 200 },
+      debug: true
     }
   }
 };
-let exArr: number[] = [1,2,3,4,5,6,7,8,9];
-_.forEach(exArr, (e) => {
-  console.log(e);
-});
+// let exArr: number[] = [1,2,3,4,5,6,7,8,9];
+// _.forEach(exArr, (e) => {
+//   console.log(e);
+// });
 
 
 // game class
