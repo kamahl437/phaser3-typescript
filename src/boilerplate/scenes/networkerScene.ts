@@ -1,10 +1,5 @@
 import { Player } from "../../games/networker/objects/player";
 
-/**
- * @author       Digitsensitive <digit.sensitivee@gmail.com>
- * @copyright    2018 Digitsensitive
- * @license      Digitsensitive
- */
 
 export class Networker extends Phaser.Scene {
 
