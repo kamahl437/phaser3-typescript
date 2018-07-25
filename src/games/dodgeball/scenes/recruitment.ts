@@ -2,7 +2,7 @@ import { RecruitedPlayer } from "../objects/recruitedPlayer"
 
 
 export class Recruitment extends Phaser.Scene {
-    private socialCapital:number = 10;
+    private socialCapital:number = 2;
     socialCapitalText: Phaser.GameObjects.Text;
     
     constructor() {
@@ -29,8 +29,8 @@ export class Recruitment extends Phaser.Scene {
         this.socialCapitalText = this.add.text(16,16,`Social Capital: ${this.socialCapital}`, {fontSize: '32px', fill: '#000'});
 
         let player1 = new RecruitedPlayer(this, 100, 100, 'player', this.recruitPlayer.bind(this));
-        let player2 = new RecruitedPlayer(this, 200, 200, 'player', this.recruitPlayer.bind(this));
-        let player3 = new RecruitedPlayer(this, 300, 300, 'player', this.recruitPlayer.bind(this));
+        let player2 = new RecruitedPlayer(this, 300, 400, 'player', this.recruitPlayer.bind(this));
+        let player3 = new RecruitedPlayer(this, 400, 300, 'player', this.recruitPlayer.bind(this));
 
     }
 
