@@ -10,13 +10,15 @@ export class RecruitedPlayer extends Phaser.GameObjects.Image {
     private statTextVisible:boolean = false;
     private openStatusMenuText: Phaser.GameObjects.Text;
     private textXOffset:number = 45;
+    private recruitCb;
     recruitPlayerButton: any;
     
     
-    constructor(scene:Phaser.Scene, x:number, y:number, key:string, stats?:Stats) {
+    constructor(scene:Phaser.Scene, x:number, y:number, key:string, recruitCb, stats?:Stats) {
         super(scene, x, y, key);
         //will want to initialize above private values to rando between 1-10
         this.playerStats = stats ? stats : new Stats();
+        this.recruitCb = recruitCb;
         this.displayPlayerStats(scene, x, y);
         this.setInteractive();
         this.on('pointerdown', this.onPlayerClicked)
@@ -34,6 +36,7 @@ export class RecruitedPlayer extends Phaser.GameObjects.Image {
         this.statTextVisible = !this.statTextVisible;
         this.setStatTextVisibility( this.statTextVisible);
         this.openStatusMenuText.visible = !this.statTextVisible;
+        this.recruitPlayerButton.visible = !this.statTextVisible;
     }
 
     setStatTextVisibility(visible:boolean) {
@@ -41,6 +44,10 @@ export class RecruitedPlayer extends Phaser.GameObjects.Image {
         this.perceptionText.visible = visible;
         this.motivationText.visible = visible;
         this.closeButton.visible = visible;
+    }
+
+    recruitPlayer() {
+        this.recruitCb();
     }
 
     private displayPlayerStats(scene: Phaser.Scene, x: number, y: number) {
@@ -59,6 +66,6 @@ export class RecruitedPlayer extends Phaser.GameObjects.Image {
         this.openStatusMenuText.on('pointerdown', this.toggleTextVisibility, this);
         this.recruitPlayerButton = scene.add.text(x + this.textXOffset, y, `Recruit Player`);
         this.recruitPlayerButton.setInteractive();
-        this.recruitPlayerButton.on('pointerdown', this.toggleTextVisibility, this);
+        this.recruitPlayerButton.on('pointerdown', this.recruitPlayer, this);
     }
 }
