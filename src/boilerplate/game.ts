@@ -18,7 +18,7 @@ const config: GameConfig = {
   height: 600,
   type: Phaser.AUTO,
   parent: "game",
-  scene: Recruitment,
+  scene: Networker,
   physics: {
     default: "arcade",
     arcade: {

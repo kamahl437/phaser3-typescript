@@ -3,12 +3,15 @@ export class Stats {
     public charisma: number;
     public perception: number;
     public motivation: number;
+    public speed: number;
+    public jump: number;
     private maxStat:number = 10;
 
     constructor(charisma?:number, perception?:number, motivation?:number) {
         this.charisma = charisma | this.getRandomStat();
         this.perception = perception | this.getRandomStat();
-        this.motivation = motivation | this.getRandomStat();
+        this.speed = this.getRandomStat();
+        this.jump =  this.getRandomStat();
     }
 
     getRandomStat() {
