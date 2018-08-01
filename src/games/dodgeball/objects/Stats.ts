@@ -10,7 +10,7 @@ export class Stats {
     constructor(charisma?:number, perception?:number, motivation?:number) {
         this.charisma = charisma | this.getRandomStat();
         this.perception = perception | this.getRandomStat();
-        this.speed = this.getRandomStat();
+        this.speed = this.getRandomStat() * 10;
         this.jump =  this.getRandomStat();
     }
 

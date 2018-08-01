@@ -10,6 +10,7 @@ import "phaser";
 // import { MainScene } from "./scenes/mainScene";
 import { Networker } from "./scenes/networkerScene";
 import { Recruitment } from "../games/dodgeball/scenes/recruitment"
+import { DodgeballScene } from "../games/dodgeball/scenes/dodgeball"
 import * as _ from "lodash";
 
 // main game configuration
@@ -18,7 +19,7 @@ const config: GameConfig = {
   height: 600,
   type: Phaser.AUTO,
   parent: "game",
-  scene: Networker,
+  scene: DodgeballScene,
   physics: {
     default: "arcade",
     arcade: {
