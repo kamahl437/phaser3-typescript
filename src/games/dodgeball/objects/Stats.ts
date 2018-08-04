@@ -10,18 +10,26 @@ export class Stats {
     constructor(charisma?:number, perception?:number, motivation?:number) {
         this.charisma = charisma | this.getRandomStat();
         this.perception = perception | this.getRandomStat();
-        this.speed = this.getRandomStat() * 10;
-        this.jump =  this.getRandomStat();
+        this.speed = this.getRandomDigitStat() * 10;
+        this.jump =  this.getRandomDigitStat();
     }
 
     getRandomStat() {
-        return this.getRandomInt(this.maxStat);
+        return this.getRandomInt(this.maxStat, 0);
+    }
+
+    getRandomDigitStat() {
+        return this.getRandomNumber(this.maxStat, 5);
+    }
+
+    getRandomNumber(max, min?) {
+        //essentially setting min at 1
+        return (Math.random() * Math.floor(max-1)) + min;
     }
     
 
-    getRandomInt(max) {
-        //essentially setting min at 1
-        return (Math.floor(Math.random() * Math.floor(max-1))) + 1;
+    getRandomInt(max, min) {
+        return Math.floor(this.getRandomNumber(max, min));
       }
 
     //formulas should go here
