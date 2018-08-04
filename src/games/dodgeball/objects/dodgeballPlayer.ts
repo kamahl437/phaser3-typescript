@@ -2,6 +2,7 @@ import {Stats} from "./Stats"
 
 export class DodgeballPlayer extends Phaser.GameObjects.Image {
     stats: Stats;
+    cursors: CursorKeys;
     
     
     
@@ -13,11 +14,25 @@ export class DodgeballPlayer extends Phaser.GameObjects.Image {
         //this.on('pointerdown', this.onPlayerClicked)
         scene.add.existing(this);
         this.stats = new Stats();
-        this.body.setVelocityX(this.stats.speed);
+        this.body.setVelocityX(this.stats.speed/2);
+        this.cursors = this.scene.input.keyboard.createCursorKeys();
     }
     
     onPlayerClicked(cursor: any, location: any) {
         //this.toggleTextVisibility();
     }
 
+    update(): void {
+        this.handleInput();
+    }
+    handleInput(): void {
+        if(this.cursors.up.isDown && this.body.touching.down) {
+            this.body.setVelocityY(-this.stats.jump);
+            this.body.setVelocityX(this.stats.speed/2)
+        } else if(this.body.touching.down) {
+            this.body.setVelocityX(this.stats.speed)
+        }
+
+    }
+    
 }

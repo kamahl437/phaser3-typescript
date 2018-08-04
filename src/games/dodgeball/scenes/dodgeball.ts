@@ -4,7 +4,7 @@ import * as _ from "lodash";
 export class DodgeballScene extends Phaser.Scene {
     dodgeballPlayer: DodgeballPlayer;
     ground: Phaser.Physics.Arcade.Image;
-    recruitedPlayerNumber = 10;
+    recruitedPlayerNumber = 100;
     players = [];
 
   constructor() {
@@ -30,7 +30,9 @@ export class DodgeballScene extends Phaser.Scene {
 
   update(): void {
 
-
+    _.each(this.players, (player) => {
+      player.update();
+    })
         // Phaser.Geom.Intersects.RectangleToRectangle(
         //   this.asteroids[i].getBody(),
         //   this.player.getBody()

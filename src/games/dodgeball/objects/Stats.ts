@@ -11,15 +11,15 @@ export class Stats {
         this.charisma = charisma | this.getRandomStat();
         this.perception = perception | this.getRandomStat();
         this.speed = this.getRandomDigitStat() * 10;
-        this.jump =  this.getRandomDigitStat();
+        this.jump =  this.getRandomDigitStat(8) * 10;
     }
 
     getRandomStat() {
         return this.getRandomInt(this.maxStat, 0);
     }
 
-    getRandomDigitStat() {
-        return this.getRandomNumber(this.maxStat, 5);
+    getRandomDigitStat(min?) {
+        return this.getRandomNumber(this.maxStat, min | 5);
     }
 
     getRandomNumber(max, min?) {
