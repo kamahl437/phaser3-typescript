@@ -22,7 +22,7 @@ export class DodgeballScene extends Phaser.Scene {
     this.ground = this.physics.add.staticImage(320, 700, 'dodgeballGround').setScale(2.5).refreshBody();
     _.times(this.recruitedPlayerNumber, () => {
       let player = new DodgeballPlayer(this,0,0,'player');
-      player.setScale(.5,.5)
+      player.setScale(.25,.25)
       this.physics.add.collider(player, this.ground);
       this.players.push(player);
     });
