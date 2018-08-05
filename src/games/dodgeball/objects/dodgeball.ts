@@ -3,8 +3,7 @@ export class Dodgeball extends Phaser.GameObjects.Image {
     cursors: CursorKeys;
     currentScene: Phaser.Scene;
     public isOffScreen: boolean = false;
-    public scored: boolean = false;
-    
+    public hitAPlayer:boolean = false;
     
     
     constructor(scene:Phaser.Scene, key:string) {

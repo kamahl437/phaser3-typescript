@@ -6,6 +6,7 @@ export class DodgeballPlayer extends Phaser.GameObjects.Image {
     currentScene: Phaser.Scene;
     public isOffScreen: boolean = false;
     public scored: boolean = false;
+    public hitByBall = false;
     
     
     

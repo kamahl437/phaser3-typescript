@@ -3,6 +3,7 @@ import * as _ from "lodash";
 import { Dodgeball } from "../objects/dodgeball";
 
 export class DodgeballScene extends Phaser.Scene {
+
   dodgeballPlayer: DodgeballPlayer;
   ground: Phaser.Physics.Arcade.Image;
   recruitedPlayerNumber = 100;
@@ -34,15 +35,15 @@ export class DodgeballScene extends Phaser.Scene {
       this.physics.add.collider(player, this.obstacles);
       this.players.push(player);
     });
-
+    
     this.scoreText = this.add.text(20, 20, `Score ${this.playersThatMadeIt}`)
     this.createDodgeballThrowEvent();
-
+    
   }
-
+  
   private createDodgeballThrowEvent() {
     let dodgeballCreationEvent = new Phaser.Time.TimerEvent({
-      delay: 1000,
+      delay: 1500,
       loop: true,
       callback: this.createDodgeball,
       callbackScope: this
@@ -51,8 +52,17 @@ export class DodgeballScene extends Phaser.Scene {
   }
 
   createDodgeball(): void {
-    this.dodgeballs.push(new Dodgeball(this, "obstacle").setScale(.25, .25))
+    const dodgeball = new Dodgeball(this, "obstacle").setScale(.25, .25);
+    //this.dodgeballs.push(dodgeball);
+    _.each(this.players, (player: DodgeballPlayer, index) => {
+      this.physics.add.collider(player, dodgeball, (player:DodgeballPlayer, ball:Dodgeball) => {
+        player.hitByBall =true;
+        ball.hitAPlayer = true;
+        ball.destroy();
+      });
+    });
   }
+
 
   createObstacles(): void {
     this.obstacles = this.physics.add.staticGroup();
@@ -67,14 +77,16 @@ export class DodgeballScene extends Phaser.Scene {
   update(): void {
     _.each(this.players, (player: DodgeballPlayer, index) => {
       player.update();
-      if (player.isOffScreen && !player.scored) {
+      if (player.hitByBall) {
+        player.destroy();
+      } else if (player.isOffScreen && !player.scored) {
         ++this.playersThatMadeIt;
         player.scored = true;
         player.destroy();
-      }
+      } 
     })
     _.remove(this.players, (player) => {
-      return player.isOffScreen;
+      return player.isOffScreen || player.hitByBall;
     })
     this.scoreText.setText(`Score ${this.playersThatMadeIt}`);
     // Phaser.Geom.Intersects.RectangleToRectangle(
