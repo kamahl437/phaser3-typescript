@@ -1,13 +1,15 @@
 import { DodgeballPlayer } from "../objects/dodgeballPlayer";
 import * as _ from "lodash";
- 
+import { Dodgeball } from "../objects/dodgeball";
+
 export class DodgeballScene extends Phaser.Scene {
-    dodgeballPlayer: DodgeballPlayer;
-    ground: Phaser.Physics.Arcade.Image;
-    recruitedPlayerNumber = 100;
-    players = [];
-    private playersThatMadeIt:number = 0;
-    private scoreText: Phaser.GameObjects.Text;
+  dodgeballPlayer: DodgeballPlayer;
+  ground: Phaser.Physics.Arcade.Image;
+  recruitedPlayerNumber = 100;
+  players: DodgeballPlayer[] = [];
+  dodgeballs: Dodgeball[] = [];
+  private playersThatMadeIt: number = 0;
+  private scoreText: Phaser.GameObjects.Text;
   obstacles: Phaser.Physics.Arcade.StaticGroup;
 
   constructor() {
@@ -17,27 +19,42 @@ export class DodgeballScene extends Phaser.Scene {
   }
 
   preload(): void {
-      this.load.image('player','assets/networker/player.png');
-      this.load.image('obstacle','assets/networker/coin.png');
-      this.load.image('dodgeballGround','assets/networker/rectangle.png');
+    this.load.image('player', 'assets/networker/player.png');
+    this.load.image('obstacle', 'assets/networker/coin.png');
+    this.load.image('dodgeballGround', 'assets/networker/rectangle.png');
   }
 
-  create():void {
+  create(): void {
     this.createObstacles();
     this.ground = this.physics.add.staticImage(320, 700, 'dodgeballGround').setScale(2.5).refreshBody();
     _.times(this.recruitedPlayerNumber, () => {
-      let player = new DodgeballPlayer(this,0,0,'player');
-      player.setScale(.25,.25)
+      let player = new DodgeballPlayer(this, 0, 0, 'player');
+      player.setScale(.25, .25)
       this.physics.add.collider(player, this.ground);
       this.physics.add.collider(player, this.obstacles);
       this.players.push(player);
     });
 
-    this.scoreText = this.add.text(20,20,`Score ${this.playersThatMadeIt}`)
+    this.scoreText = this.add.text(20, 20, `Score ${this.playersThatMadeIt}`)
+    this.createDodgeballThrowEvent();
 
   }
 
-  createObstacles():void {
+  private createDodgeballThrowEvent() {
+    let dodgeballCreationEvent = new Phaser.Time.TimerEvent({
+      delay: 1000,
+      loop: true,
+      callback: this.createDodgeball,
+      callbackScope: this
+    });
+    this.time.addEvent(dodgeballCreationEvent);
+  }
+
+  createDodgeball(): void {
+    this.dodgeballs.push(new Dodgeball(this, "obstacle").setScale(.25, .25))
+  }
+
+  createObstacles(): void {
     this.obstacles = this.physics.add.staticGroup();
     this.obstacles.create(320, 570, 'obstacle');
     this.obstacles.create(350, 520, 'obstacle');
@@ -48,22 +65,23 @@ export class DodgeballScene extends Phaser.Scene {
   }
 
   update(): void {
-
-    _.each(this.players, (player:DodgeballPlayer, index) => {
+    _.each(this.players, (player: DodgeballPlayer, index) => {
       player.update();
-      if(player.isOffScreen && !player.scored) {
+      if (player.isOffScreen && !player.scored) {
         ++this.playersThatMadeIt;
         player.scored = true;
-      } else {
-        // player.re
+        player.destroy();
       }
-      this.scoreText.setText(`Score ${this.playersThatMadeIt}`);
     })
-        // Phaser.Geom.Intersects.RectangleToRectangle(
-        //   this.asteroids[i].getBody(),
-        //   this.player.getBody()
+    _.remove(this.players, (player) => {
+      return player.isOffScreen;
+    })
+    this.scoreText.setText(`Score ${this.playersThatMadeIt}`);
+    // Phaser.Geom.Intersects.RectangleToRectangle(
+    //   this.asteroids[i].getBody(),
+    //   this.player.getBody()
 
-       // this.scene.start("GameScene");
+    // this.scene.start("GameScene");
   }
 
 }

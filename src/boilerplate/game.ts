@@ -10,7 +10,7 @@ import "phaser";
 // import { MainScene } from "./scenes/mainScene";
 import { Networker } from "./scenes/networkerScene";
 import { Recruitment } from "../games/dodgeball/scenes/recruitment"
-import { DodgeballScene } from "../games/dodgeball/scenes/dodgeball"
+import { DodgeballScene } from "../games/dodgeball/scenes/dodgeballScene"
 import * as _ from "lodash";
 
 // main game configuration
