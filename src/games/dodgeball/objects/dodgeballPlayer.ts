@@ -3,6 +3,9 @@ import {Stats} from "./Stats"
 export class DodgeballPlayer extends Phaser.GameObjects.Image {
     stats: Stats;
     cursors: CursorKeys;
+    currentScene: Phaser.Scene;
+    public isOffScreen: boolean = false;
+    public scored: boolean = false;
     
     
     
@@ -16,6 +19,7 @@ export class DodgeballPlayer extends Phaser.GameObjects.Image {
         this.stats = new Stats();
         this.body.setVelocityX(this.stats.speed/2);
         this.cursors = this.scene.input.keyboard.createCursorKeys();
+        this.currentScene = scene;
     }
     
     onPlayerClicked(cursor: any, location: any) {
@@ -24,13 +28,26 @@ export class DodgeballPlayer extends Phaser.GameObjects.Image {
 
     update(): void {
         this.handleInput();
+        this.checkIfOffScreen();
     }
+
+    private checkIfOffScreen(): void {
+        if (
+          this.x > this.currentScene.sys.canvas.width + 1 ||
+          this.y > this.currentScene.sys.canvas.height + 1
+        ) {
+          this.isOffScreen = true;
+        }
+      }
+
     handleInput(): void {
         if(this.cursors.up.isDown && this.body.touching.down) {
             this.body.setVelocityY(-this.stats.jump);
             this.body.setVelocityX(this.stats.speed/2)
         } else if(this.body.touching.down) {
             this.body.setVelocityX(this.stats.speed)
+        } else {
+            this.body.setVelocityX(this.stats.speed/2)
         }
 
     }

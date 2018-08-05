@@ -11,7 +11,7 @@ export class Stats {
         this.charisma = charisma | this.getRandomStat();
         this.perception = perception | this.getRandomStat();
         this.speed = this.getRandomDigitStat() * 10;
-        this.jump =  this.getRandomDigitStat(8) * 10;
+        this.jump =  this.getRandomDigitStat(8) * 11;
     }
 
     getRandomStat() {
